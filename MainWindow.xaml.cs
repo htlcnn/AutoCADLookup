@@ -30,6 +30,7 @@ namespace SnoopAutoCADCSharp
         {
             this.ChildItems = new ObservableCollection<TreeViewCustomItem>();
         }
+
         public string Title { get; set; }
         public object Object { get; set; }
         public ObservableCollection<TreeViewCustomItem> ChildItems { get; set; }
@@ -85,7 +86,7 @@ namespace SnoopAutoCADCSharp
                 {
                     IEnumerable asEnum = propValue as IEnumerable;
                     foreach (object item in asEnum)
-                        return stringCollection;// at least one, ok
+                        return stringCollection; // at least one, ok
                     return stringEmptyCollection; // empty collection then
                 }
             }
@@ -184,7 +185,6 @@ namespace SnoopAutoCADCSharp
                     Value = propValue,
                     LinkObject = LinkObject
                 });
-
             }
         }
 
@@ -244,14 +244,14 @@ namespace SnoopAutoCADCSharp
         public void AddTreeViewItem(TreeViewCustomItem parent, object link_object)
         {
             string text = GetNameOrType(link_object);
-            TreeViewCustomItem child_item = new TreeViewCustomItem() { Title = text, Object = link_object };
+            TreeViewCustomItem child_item = new TreeViewCustomItem() {Title = text, Object = link_object};
             parent.ChildItems.Add(child_item);
         }
 
         public void AddToTreeView(DBObject obj)
         {
             string text = GetNameOrType(obj) + " " + obj.ObjectId.ToString();
-            TreeViewCustomItem item = new TreeViewCustomItem() { Title = text, Object = obj };
+            TreeViewCustomItem item = new TreeViewCustomItem() {Title = text, Object = obj};
             this.treeview.Items.Add(item);
         }
 
@@ -289,7 +289,7 @@ namespace SnoopAutoCADCSharp
         private void ObjectIdItemSelected(object LinkObject)
         {
             var objectIds = new List<ObjectId>();
-            objectIds.Add((ObjectId)LinkObject);
+            objectIds.Add((ObjectId) LinkObject);
             try
             {
                 MainWindow form = new MainWindow(_db, objectIds);
@@ -299,18 +299,17 @@ namespace SnoopAutoCADCSharp
             {
                 MessageBox.Show(ex.Message.ToString());
             }
-            
         }
 
         private void CollectionItemSelected(object LinkObject)
         {
             var objectIds = new List<ObjectId>();
 
-            foreach (var item in (IEnumerable)LinkObject)
+            foreach (var item in (IEnumerable) LinkObject)
             {
                 if (item.GetType() == typeof(ObjectId))
                 {
-                    objectIds.Add((ObjectId)item);
+                    objectIds.Add((ObjectId) item);
                 }
             }
             if (objectIds.Count > 0)
@@ -358,8 +357,9 @@ namespace SnoopAutoCADCSharp
             }
         }
     }
+
     public class SnoopCommand
-    { 
+    {
         [CommandMethod("SnoopAutoCAD")]
         public void CommandSnoopAutoCADDatabase()
         {
@@ -372,8 +372,8 @@ namespace SnoopAutoCADCSharp
                 if (promptSelectionResult.Status != PromptStatus.OK) return;
                 SelectionSet selectionSet = promptSelectionResult.Value;
                 var form = new MainWindow(
-                        AcApplication.DocumentManager.MdiActiveDocument.Database,
-                        new List<ObjectId>(selectionSet.GetObjectIds())
+                    AcApplication.DocumentManager.MdiActiveDocument.Database,
+                    new List<ObjectId>(selectionSet.GetObjectIds())
                     );
 
                 AcApplication.ShowModalWindow(form);
@@ -382,7 +382,6 @@ namespace SnoopAutoCADCSharp
             {
                 MessageBox.Show(ex.ToString());
             }
-            
         }
     }
 
@@ -393,6 +392,5 @@ namespace SnoopAutoCADCSharp
         public string Type { get; set; }
         public string Value { get; set; }
         public Object LinkObject { get; set; }
-
     }
 }
