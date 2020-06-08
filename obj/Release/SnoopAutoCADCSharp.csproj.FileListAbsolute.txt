@@ -1,0 +1,14 @@
+C:\Users\HTL\source\repos\SnoopAutoCADCSharp\bin\Release\SnoopAutoCADCSharp.dll.config
+C:\Users\HTL\source\repos\SnoopAutoCADCSharp\bin\Release\SnoopAutoCADCSharp.dll
+C:\Users\HTL\source\repos\SnoopAutoCADCSharp\bin\Release\SnoopAutoCADCSharp.pdb
+C:\Users\HTL\source\repos\SnoopAutoCADCSharp\obj\Release\MainWindow.g.cs
+C:\Users\HTL\source\repos\SnoopAutoCADCSharp\obj\Release\GeneratedInternalTypeHelper.g.cs
+C:\Users\HTL\source\repos\SnoopAutoCADCSharp\obj\Release\SnoopAutoCADCSharp_MarkupCompile.cache
+C:\Users\HTL\source\repos\SnoopAutoCADCSharp\obj\Release\SnoopAutoCADCSharp_MarkupCompile.lref
+C:\Users\HTL\source\repos\SnoopAutoCADCSharp\obj\Release\MainWindow.baml
+C:\Users\HTL\source\repos\SnoopAutoCADCSharp\obj\Release\SnoopAutoCADCSharp.g.resources
+C:\Users\HTL\source\repos\SnoopAutoCADCSharp\obj\Release\SnoopAutoCADCSharp.Properties.Resources.resources
+C:\Users\HTL\source\repos\SnoopAutoCADCSharp\obj\Release\SnoopAutoCADCSharp.csproj.GenerateResource.cache
+C:\Users\HTL\source\repos\SnoopAutoCADCSharp\obj\Release\SnoopAutoCADCSharp.csproj.CoreCompileInputs.cache
+C:\Users\HTL\source\repos\SnoopAutoCADCSharp\obj\Release\SnoopAutoCADCSharp.dll
+C:\Users\HTL\source\repos\SnoopAutoCADCSharp\obj\Release\SnoopAutoCADCSharp.pdb
