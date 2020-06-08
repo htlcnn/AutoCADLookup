@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>SnoopAutoCADCSharp</RootNamespace>
     <AssemblyName>SnoopAutoCADCSharp</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -45,18 +45,21 @@
   <ItemGroup>
     <Reference Include="AcCoreMgd, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Setup\UCE\Autodesk\AutoCAD\API\ObjectARX 2013\inc\AcCoreMgd.dll</HintPath>
+      <HintPath>..\Civil3D_SDK_Dynamo\2021\accoremgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcDbMgd, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Setup\UCE\Autodesk\AutoCAD\API\ObjectARX 2013\inc\AcDbMgd.dll</HintPath>
+      <HintPath>..\Civil3D_SDK_Dynamo\2021\acdbmgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcMgd, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Setup\UCE\Autodesk\AutoCAD\API\ObjectARX 2013\inc\AcMgd.dll</HintPath>
+      <HintPath>..\Civil3D_SDK_Dynamo\2021\acmgd.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="AeccDbMgd">
+      <HintPath>..\Civil3D_SDK_Dynamo\2021\AeccDbMgd.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
