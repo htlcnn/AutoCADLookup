@@ -12,7 +12,9 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Runtime;
 using Application = Autodesk.AutoCAD.ApplicationServices.Core.Application;
+using Exception = System.Exception;
 
 namespace SnoopAutoCADCSharp
 {
@@ -22,7 +24,7 @@ namespace SnoopAutoCADCSharp
         private const string stringEmpty = "[Empty]";
         private const string stringEmptyCollection = "[Empty Collection]";
         private const string stringCollection = "[Collection]";
-        public Editor Editor;
+        public Editor Ed;
         public Database Database;
         public static MainWindow Frmmanin;
 
@@ -74,27 +76,45 @@ namespace SnoopAutoCADCSharp
 
         public SnoopViewModel(Editor ed, Database db)
         {
-            this.Editor = ed;
+            this.Ed = ed;
             this.Database = db;
-            GetObjSelection();
+            PickObjectBySelect();
             GetListViewItem();
         }
 
-        void GetObjSelection()
+        void PickObjectBySelect()
         {
             try
             {
-                PromptSelectionResult promptSelectionResult = Editor.GetSelection();
+
+                PromptSelectionResult promptSelectionResult = Ed.GetSelection();
                 if (promptSelectionResult.Status != PromptStatus.OK) return;
                 SelectionSet selectionSet = promptSelectionResult.Value;
-                ObjectIds = new List<ObjectId>();
                 ObjectIds = selectionSet.GetObjectIds().ToList();
+
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
             }
         }
+
+        //public List<ObjectId> getSelectionSet()
+        //{
+        //    var pso = new PromptSelectionOptions();
+        //    pso.SingleOnly = true;
+        //    pso.SinglePickInSpace = true;
+        //    PromptSelectionResult psr;
+        //    List<ObjectId> ids = new List<ObjectId>();
+        //    while (true)
+        //    {
+        //        psr = Ed.GetSelection(pso);
+        //        if (psr.Status != PromptStatus.OK)
+        //            break;
+        //        ids.Add(psr.Value[0].ObjectId);
+        //    }
+        //    return ids;
+        //}
 
         void GetListViewItem()
         {
@@ -231,15 +251,7 @@ namespace SnoopAutoCADCSharp
 
         private bool IsBanned(Type objectType, string propName)
         {
-            return (_bannedList.Contains(string.Format("{0}_{1}", objectType.Name, propName)));
-        }
-
-        private void treObjects_AfterSelect(System.Object sender, System.Windows.Forms.TreeViewEventArgs e)
-        {
-            if ((e.Node.Tag == null))
-                return;
-
-            ListObjectInformation(e.Node.Tag);
+            return (_bannedList.Contains($"{objectType.Name}_{propName}"));
         }
 
         private void ListMethods(object obj, Type objType)
@@ -344,7 +356,7 @@ namespace SnoopAutoCADCSharp
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message.ToString());
+                    MessageBox.Show(ex.Message);
                 }
             }
             else

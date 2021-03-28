@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,12 +24,10 @@ namespace SnoopAutoCADCSharp
                 //select multiple entities
                 Database db = Application.DocumentManager.MdiActiveDocument.Database;
                 SnoopViewModel vm = new SnoopViewModel(ed, db);
-                var form = new MainWindow(vm);
-                if (form!=null)
-                {
-                    Application.ShowModalWindow(form);
-                }
-                
+                MainWindow form = new MainWindow(vm);
+                IntPtr handle = WindowHandle.FindCadWindowHandle();
+                MessageBox.Show(handle.ToString());
+                Application.ShowModalWindow(handle, form);
             }
             catch (Exception ex)
             {
