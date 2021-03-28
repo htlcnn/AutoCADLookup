@@ -22,25 +22,10 @@ using Autodesk.AutoCAD.Runtime;
 using Exception = System.Exception;
 using System.ComponentModel;
 using System.Diagnostics;
-using Autodesk.Civil.DatabaseServices;
 using DBObject = Autodesk.AutoCAD.DatabaseServices.DBObject;
 
 namespace SnoopAutoCADCSharp
 {
-<<<<<<< Updated upstream
-    public class TreeViewCustomItem
-    {
-        public TreeViewCustomItem()
-        {
-            this.ChildItems = new ObservableCollection<TreeViewCustomItem>();
-        }
-        public string Title { get; set; }
-        public object Object { get; set; }
-        public ObservableCollection<TreeViewCustomItem> ChildItems { get; set; }
-    }
-=======
-   
->>>>>>> Stashed changes
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -364,49 +349,5 @@ namespace SnoopAutoCADCSharp
             }
         }
     }
-<<<<<<< Updated upstream
-    public class SnoopCommand
-    { 
-        [CommandMethod("SnoopAutoCAD")]
-        public void CommandSnoopAutoCADDatabase()
-        {
-            try
-            {
-                Editor ed = AcApplication.DocumentManager.MdiActiveDocument.Editor;
-
-                //select multiple entities
-                PromptSelectionResult promptSelectionResult = ed.GetSelection();
-                if (promptSelectionResult.Status != PromptStatus.OK) return;
-                SelectionSet selectionSet = promptSelectionResult.Value;
-                var form = new MainWindow(
-                        AcApplication.DocumentManager.MdiActiveDocument.Database,
-                        new List<ObjectId>(selectionSet.GetObjectIds())
-                    );
-
-                AcApplication.ShowModalWindow(form);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            
-        }
-    }
-
-    public class ObjectDetails
-    {
-        public string GroupName { get; set; }
-        public string PropName { get; set; }
-        public string Type { get; set; }
-        public string Value { get; set; }
-        public Object LinkObject { get; set; }
-
-    }
 }
-=======
 
-    
-
-    
-}
->>>>>>> Stashed changes
