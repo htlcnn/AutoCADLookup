@@ -21,9 +21,13 @@ using System.Collections.ObjectModel;
 using Autodesk.AutoCAD.Runtime;
 using Exception = System.Exception;
 using System.ComponentModel;
+using System.Diagnostics;
+using Autodesk.Civil.DatabaseServices;
+using DBObject = Autodesk.AutoCAD.DatabaseServices.DBObject;
 
 namespace SnoopAutoCADCSharp
 {
+<<<<<<< Updated upstream
     public class TreeViewCustomItem
     {
         public TreeViewCustomItem()
@@ -34,6 +38,9 @@ namespace SnoopAutoCADCSharp
         public object Object { get; set; }
         public ObservableCollection<TreeViewCustomItem> ChildItems { get; set; }
     }
+=======
+   
+>>>>>>> Stashed changes
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -44,14 +51,13 @@ namespace SnoopAutoCADCSharp
         private const string stringCollection = "[Collection]";
         private const string stringEmpty = "[Empty]";
         public List<ObjectDetails> listviewitems;
-        public TreeViewCustomItem treeviewitems;
-
         private Transaction _trans;
         private Database _db;
 
         public MainWindow(Database db, List<ObjectId> objectIds)
         {
             InitializeComponent();
+            SnoopViewModel.Frmmanin = this;
             _db = db;
 
             _trans = _db.TransactionManager.StartTransaction();
@@ -358,6 +364,7 @@ namespace SnoopAutoCADCSharp
             }
         }
     }
+<<<<<<< Updated upstream
     public class SnoopCommand
     { 
         [CommandMethod("SnoopAutoCAD")]
@@ -396,3 +403,10 @@ namespace SnoopAutoCADCSharp
 
     }
 }
+=======
+
+    
+
+    
+}
+>>>>>>> Stashed changes

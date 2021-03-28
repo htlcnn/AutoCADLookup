@@ -45,19 +45,39 @@
   <ItemGroup>
     <Reference Include="AcCoreMgd, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+<<<<<<< Updated upstream
       <HintPath>E:\Setup\UCE\Autodesk\AutoCAD\API\ObjectARX 2013\inc\AcCoreMgd.dll</HintPath>
+=======
+      <HintPath>..\autocad-sdk\lib\2018\Any\AcCoreMgd.dll</HintPath>
+>>>>>>> Stashed changes
       <Private>False</Private>
     </Reference>
     <Reference Include="AcDbMgd, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+<<<<<<< Updated upstream
       <HintPath>E:\Setup\UCE\Autodesk\AutoCAD\API\ObjectARX 2013\inc\AcDbMgd.dll</HintPath>
+=======
+      <HintPath>..\autocad-sdk\lib\2018\Any\AcDbMgd.dll</HintPath>
+>>>>>>> Stashed changes
       <Private>False</Private>
     </Reference>
     <Reference Include="AcMgd, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+<<<<<<< Updated upstream
       <HintPath>E:\Setup\UCE\Autodesk\AutoCAD\API\ObjectARX 2013\inc\AcMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
+=======
+      <HintPath>..\autocad-sdk\lib\2018\Any\AcMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AcTcMgd">
+      <HintPath>..\autocad-sdk\lib\2018\Any\AcTcMgd.dll</HintPath>
+    </Reference>
+    <Reference Include="AeccDbMgd">
+      <HintPath>..\Civil3D_SDK_Dynamo\2021\AeccDbMgd.dll</HintPath>
+    </Reference>
+>>>>>>> Stashed changes
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
@@ -74,9 +94,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataUtils.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ObjectDetails.cs" />
+    <Compile Include="RelayCommand.cs" />
+    <Compile Include="SnoopCommand.cs" />
+    <Compile Include="SnoopViewModel.cs" />
+    <Compile Include="TreeViewCustom.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
