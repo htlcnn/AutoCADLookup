@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace SnoopAutoCADCSharp
+namespace SnoopAutoCADCSharp.Model
 {
     public static class WindowHandle
     {

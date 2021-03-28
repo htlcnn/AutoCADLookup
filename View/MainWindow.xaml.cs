@@ -1,31 +1,13 @@
-﻿using AcApplication = Autodesk.AutoCAD.ApplicationServices.Application;
-using Autodesk.AutoCAD.DatabaseServices;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Autodesk.AutoCAD.EditorInput;
-using System.Collections.ObjectModel;
-using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.DatabaseServices;
+using SnoopAutoCADCSharp.Model;
+using SnoopAutoCADCSharp.ViewModel;
 using Exception = System.Exception;
-using System.ComponentModel;
-using System.Diagnostics;
-using Application = Autodesk.AutoCAD.ApplicationServices.Core.Application;
-using DBObject = Autodesk.AutoCAD.DatabaseServices.DBObject;
 
-namespace SnoopAutoCADCSharp
+namespace SnoopAutoCADCSharp.View
 {
 
     /// <summary>
@@ -39,20 +21,37 @@ namespace SnoopAutoCADCSharp
             InitializeComponent();
             this._viewModel = vm;
             this.DataContext = vm;
-            SnoopViewModel.Frmmanin = this;
+            SnoopViewModel.FrmMain = this;
 
         }
 
         private void Treeview_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            TreeView tree = sender as TreeView;
-            TreeViewCustomItem selected = tree.SelectedItem as TreeViewCustomItem;
-
-            var obj = selected.Object;
-
-            if (obj != null)
+            try
             {
-                _viewModel.ListObjectInformation(obj);
+                TreeView tree = sender as TreeView;
+                TreeViewCustomItem selected = e.NewValue as TreeViewCustomItem;
+
+                object obj = selected.Object;
+                if (obj != null)
+                {
+                    _viewModel.LisViewItems.Clear();
+                    Type objType = obj.GetType();
+                    _viewModel.ListProperties(obj, objType);
+                    _viewModel.ListMethods(obj, objType);
+                    //TODO
+                    //if (_viewModel.LisViewItems==null)
+                    //{
+                    //    MessageBox.Show("dsds");
+                    //}
+                    //ICollectionView view = CollectionViewSource.GetDefaultView(_viewModel.LisViewItems);
+                    //view.Refresh();
+
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
             }
         }
 
@@ -66,13 +65,14 @@ namespace SnoopAutoCADCSharp
             object LinkObject = selectedItem.LinkObject;
             if (_viewModel.IsEnumerable(LinkObject))
             {
-               _viewModel.CollectionItemSelected(LinkObject);
+                _viewModel.CollectionItemSelected(LinkObject);
             }
             else if (LinkObject is ObjectId)
             {
-              _viewModel.ObjectIdItemSelected(LinkObject);
+                _viewModel.ObjectIdItemSelected(LinkObject);
             }
         }
+
 
         private void ContextMenu_MouseDown(object sender, RoutedEventArgs e)
         {
@@ -93,13 +93,13 @@ namespace SnoopAutoCADCSharp
             }
         }
 
-        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape)
-            {
-                Close();
-            }
-        }
+        //private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (e.Key == Key.Escape)
+        //    {
+        //        Close();
+        //    }
+        //}
     }
 }
 

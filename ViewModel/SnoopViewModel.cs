@@ -5,18 +5,16 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Input;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Runtime;
+using SnoopAutoCADCSharp.Model;
+using SnoopAutoCADCSharp.View;
 using Application = Autodesk.AutoCAD.ApplicationServices.Core.Application;
 using Exception = System.Exception;
 
-namespace SnoopAutoCADCSharp
+namespace SnoopAutoCADCSharp.ViewModel
 {
     public class SnoopViewModel : ViewModelBase
 
@@ -26,23 +24,9 @@ namespace SnoopAutoCADCSharp
         private const string stringCollection = "[Collection]";
         public Editor Ed;
         public Database Database;
-        public static MainWindow Frmmanin;
+        public static MainWindow FrmMain;
 
-        private List<ObjectId> objectIds;
-
-        public List<ObjectId> ObjectIds
-        {
-            get
-            {
-                if (objectIds == null)
-                {
-                    objectIds = new List<ObjectId>();
-                }
-
-                return objectIds;
-            }
-            set => objectIds = value;
-        }
+        public List<ObjectId> ObjectIds;
 
         private List<ObjectDetails> listviewitems;
 
@@ -74,47 +58,15 @@ namespace SnoopAutoCADCSharp
             set => OnPropertyChanged(ref treeViewItems, value);
         }
 
-        public SnoopViewModel(Editor ed, Database db)
+        public SnoopViewModel(Editor ed, Database db,List<ObjectId> objectIds)
         {
             this.Ed = ed;
             this.Database = db;
-            PickObjectBySelect();
+            this.ObjectIds = objectIds;
             GetListViewItem();
         }
 
-        void PickObjectBySelect()
-        {
-            try
-            {
-
-                PromptSelectionResult promptSelectionResult = Ed.GetSelection();
-                if (promptSelectionResult.Status != PromptStatus.OK) return;
-                SelectionSet selectionSet = promptSelectionResult.Value;
-                ObjectIds = selectionSet.GetObjectIds().ToList();
-
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-            }
-        }
-
-        //public List<ObjectId> getSelectionSet()
-        //{
-        //    var pso = new PromptSelectionOptions();
-        //    pso.SingleOnly = true;
-        //    pso.SinglePickInSpace = true;
-        //    PromptSelectionResult psr;
-        //    List<ObjectId> ids = new List<ObjectId>();
-        //    while (true)
-        //    {
-        //        psr = Ed.GetSelection(pso);
-        //        if (psr.Status != PromptStatus.OK)
-        //            break;
-        //        ids.Add(psr.Value[0].ObjectId);
-        //    }
-        //    return ids;
-        //}
+        
 
         void GetListViewItem()
         {
@@ -149,7 +101,6 @@ namespace SnoopAutoCADCSharp
             {
                 string text = GetNameOrType(obj) + " " + obj.ObjectId;
                 TreeViewCustomItem item = new TreeViewCustomItem() { Title = text, Object = obj };
-                TreeViewItems = new List<TreeViewCustomItem>();
                 TreeViewItems.Add(item);
             }
             catch (Exception e)
@@ -167,12 +118,12 @@ namespace SnoopAutoCADCSharp
                 return obj.GetType().Name;
         }
 
-        public void AddTreeViewItem(TreeViewCustomItem parent, object link_object)
-        {
-            string text = GetNameOrType(link_object);
-            TreeViewCustomItem child_item = new TreeViewCustomItem() { Title = text, Object = link_object };
-            parent.ChildItems.Add(child_item);
-        }
+        //public void AddTreeViewItem(TreeViewCustomItem parent, object link_object)
+        //{
+        //    string text = GetNameOrType(link_object);
+        //    TreeViewCustomItem child_item = new TreeViewCustomItem() { Title = text, Object = link_object };
+        //    parent.ChildItems.Add(child_item);
+        //}
 
         public void ListObjectInformation(object obj)
         {
@@ -191,7 +142,7 @@ namespace SnoopAutoCADCSharp
             }
         }
 
-        private void ListProperties(object obj, Type objType)
+        public void ListProperties(object obj, Type objType)
         {
             PropertyInfo[] properties = objType.GetProperties();
             foreach (PropertyInfo prop in properties)
@@ -254,32 +205,39 @@ namespace SnoopAutoCADCSharp
             return (_bannedList.Contains($"{objectType.Name}_{propName}"));
         }
 
-        private void ListMethods(object obj, Type objType)
+        public void ListMethods(object obj, Type objType)
         {
-            MethodInfo[] methods = objType.GetMethods();
-            foreach (MethodInfo meth in methods)
+            try
             {
-                if (meth.Name.Contains("Reactor"))
-                    continue; // skip some unwanted methods...
-                if ((meth.GetParameters().Length == 0 & !meth.IsSpecialName & meth.ReturnType != typeof(void)))
+                MethodInfo[] methods = objType.GetMethods();
+                foreach (MethodInfo meth in methods)
                 {
-                    object methodValue = GetValue(meth, obj);
-                    if ((IsEnumerable(methodValue)))
+                    if (meth.Name.Contains("Reactor"))
+                        continue; // skip some unwanted methods...
+                    if ((meth.GetParameters().Length == 0 & !meth.IsSpecialName & meth.ReturnType != typeof(void)))
                     {
-                        string propName = meth.Name;
-                        string propType = meth.ReturnType.Name;
-                        string propValue = stringCollection;
-                        object LinkObject = GetValue(meth, obj);
-                        listviewitems.Add(new ObjectDetails()
+                        object methodValue = GetValue(meth, obj);
+                        if ((IsEnumerable(methodValue)))
                         {
-                            GroupName = meth.DeclaringType.FullName,
-                            PropName = propName,
-                            Type = propType,
-                            Value = propValue,
-                            LinkObject = LinkObject
-                        });
+                            string propName = meth.Name;
+                            string propType = meth.ReturnType.Name;
+                            string propValue = stringCollection;
+                            object LinkObject = GetValue(meth, obj);
+                            listviewitems.Add(new ObjectDetails()
+                            {
+                                GroupName = meth.DeclaringType.FullName,
+                                PropName = propName,
+                                Type = propType,
+                                Value = propValue,
+                                LinkObject = LinkObject
+                            });
+                        }
                     }
                 }
+            }
+            catch (Exception)
+            {
+              
             }
         }
 
@@ -321,12 +279,13 @@ namespace SnoopAutoCADCSharp
 
         public void ObjectIdItemSelected(object LinkObject)
         {
-            var objectIds = new List<ObjectId>();
+            List<ObjectId> objectIds = new List<ObjectId>();
             objectIds.Add((ObjectId)LinkObject);
             try
             {
-                MainWindow form = new MainWindow(this);
-                Application.ShowModalWindow(form);
+                SnoopViewModel viewModel = new SnoopViewModel(Ed, Database, objectIds);
+                MainWindow form = new MainWindow(viewModel);
+                Application.ShowModalWindow(FrmMain.Owner,form);
             }
             catch (Exception ex)
             {
@@ -341,7 +300,7 @@ namespace SnoopAutoCADCSharp
 
             foreach (var item in (IEnumerable)LinkObject)
             {
-                if (item.GetType() == typeof(ObjectId))
+                if (item is ObjectId)
                 {
                     objectIds.Add((ObjectId)item);
                 }
@@ -351,7 +310,8 @@ namespace SnoopAutoCADCSharp
             {
                 try
                 {
-                    MainWindow form = new MainWindow(this);
+                    SnoopViewModel vm = new SnoopViewModel(Ed, Database, objectIds);
+                    MainWindow form = new MainWindow(vm);
                     Application.ShowModalWindow(form);
                 }
                 catch (Exception ex)

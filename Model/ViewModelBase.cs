@@ -1,11 +1,10 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace SnoopAutoCADCSharp
+namespace SnoopAutoCADCSharp.Model
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
