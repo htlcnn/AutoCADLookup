@@ -45,17 +45,17 @@
   <ItemGroup>
     <Reference Include="AcCoreMgd, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Civil3D_SDK_Dynamo\2021\accoremgd.dll</HintPath>
+      <HintPath>..\autocad-sdk\lib\2018\Any\AcCoreMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcDbMgd, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Civil3D_SDK_Dynamo\2021\acdbmgd.dll</HintPath>
+      <HintPath>..\autocad-sdk\lib\2018\Any\AcDbMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcMgd, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Civil3D_SDK_Dynamo\2021\acmgd.dll</HintPath>
+      <HintPath>..\autocad-sdk\lib\2018\Any\AcMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AeccDbMgd">
