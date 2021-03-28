@@ -39,6 +39,7 @@
             x:Name="treeview"
             Grid.Row="0"
             Grid.Column="0"
+            ItemsSource="{Binding TreeViewItems}"
             SelectedItemChanged="Treeview_SelectedItemChanged">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type self:TreeViewCustomItem}" ItemsSource="{Binding ChildItems}">
@@ -49,7 +50,8 @@
         <ListView
             x:Name="listview"
             Grid.Row="0"
-            Grid.Column="1">
+            Grid.Column="1"
+            ItemsSource="{Binding LisViewItems}">
             <ListView.Resources>
                 <ContextMenu x:Key="ItemContextMenu">
                     <MenuItem
@@ -60,7 +62,7 @@
             </ListView.Resources>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_DoubleClick" />
+                    <EventSetter Event="MouseDoubleClick"  Handler="ListViewItem_DoubleClick" />
                     <Setter Property="ContextMenu" Value="{StaticResource ItemContextMenu}" />
                 </Style>
             </ListView.ItemContainerStyle>

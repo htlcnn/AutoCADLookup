@@ -6,8 +6,8 @@ using System.Windows;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
-using Application = Autodesk.AutoCAD.ApplicationServices.Application;
 using Exception = System.Exception;
+using Application = Autodesk.AutoCAD.ApplicationServices.Core.Application;
 
 namespace SnoopAutoCADCSharp
 {
@@ -20,15 +20,14 @@ namespace SnoopAutoCADCSharp
             {
                 Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;
                 //select multiple entities
-                PromptSelectionResult promptSelectionResult = ed.GetSelection();
-                if (promptSelectionResult.Status != PromptStatus.OK) return;
-                SelectionSet selectionSet = promptSelectionResult.Value;
-                var form = new MainWindow(
-                    Application.DocumentManager.MdiActiveDocument.Database,
-                    new List<ObjectId>(selectionSet.GetObjectIds())
-                );
-
-                Application.ShowModalWindow(form);
+                Database db = Application.DocumentManager.MdiActiveDocument.Database;
+                SnoopViewModel vm = new SnoopViewModel(ed, db);
+                var form = new MainWindow(vm);
+                if (form!=null)
+                {
+                    Application.ShowModalWindow(form);
+                }
+                
             }
             catch (Exception ex)
             {
