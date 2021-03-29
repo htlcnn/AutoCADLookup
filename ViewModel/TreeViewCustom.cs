@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Autodesk.AutoCAD.DatabaseServices;
 
 namespace SnoopAutoCADCSharp.ViewModel
 {
@@ -10,7 +11,7 @@ namespace SnoopAutoCADCSharp.ViewModel
         }
 
         public string Title { get; set; }
-        public object Object { get; set; }
+        public DBObject Object { get; set; }
         public ObservableCollection<TreeViewCustomItem> ChildItems { get; set; }
     }
 }

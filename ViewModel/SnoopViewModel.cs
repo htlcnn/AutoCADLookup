@@ -7,6 +7,8 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
+using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using SnoopAutoCADCSharp.Model;
@@ -19,10 +21,19 @@ namespace SnoopAutoCADCSharp.ViewModel
     public class SnoopViewModel : ViewModelBase
 
     {
+        private Dictionary<string, List<ObjectDetails>> dataMethod;
+
+        public Dictionary<string, List<ObjectDetails>> DataMethod
+        {
+            get => dataMethod;
+            set => dataMethod = value;
+        }
+
         private const string stringEmpty = "[Empty]";
         private const string stringEmptyCollection = "[Empty Collection]";
         private const string stringCollection = "[Collection]";
         public Editor Ed;
+        public Document doc;
         public Database Database;
         public static MainWindow FrmMain;
 
@@ -61,18 +72,18 @@ namespace SnoopAutoCADCSharp.ViewModel
         /// <summary>
         /// Base Model
         /// </summary>
-        /// <param name="ed"></param>
         /// <param name="db"></param>
         /// <param name="objectIds"></param>
-        public SnoopViewModel(Editor ed, Database db,List<ObjectId> objectIds)
+        public SnoopViewModel(Document doc, Database db, List<ObjectId> objectIds)
         {
-            this.Ed = ed;
+            this.doc = doc;
+            this.Ed = doc.Editor;
             this.Database = db;
             this.ObjectIds = objectIds;
+            this.dataMethod = new Dictionary<string, List<ObjectDetails>>();
             GetListViewItem();
         }
 
-        
         /// <summary>
         /// Get list item of object
         /// </summary>
@@ -82,16 +93,15 @@ namespace SnoopAutoCADCSharp.ViewModel
             {
                 listviewitems = new List<ObjectDetails>();
                 Transaction tran = Database.TransactionManager.StartTransaction();
-                CollectionView view = CollectionViewSource.GetDefaultView(listviewitems) as CollectionView;
-                PropertyGroupDescription groupDescription = new PropertyGroupDescription("GroupName");
-                view.GroupDescriptions.Add(groupDescription);
+                UpdateDataSource(listviewitems);
                 if (ObjectIds.Any())
                 {
                     foreach (ObjectId objectId in ObjectIds)
                     {
-                        DBObject obj = tran.GetObject(objectId, OpenMode.ForWrite);
+                        DBObject obj = tran.GetObject(objectId, OpenMode.ForWrite, true);
                         AddToTreeView(obj);
                         ListObjectInformation(obj);
+
                     }
                 }
 
@@ -101,6 +111,19 @@ namespace SnoopAutoCADCSharp.ViewModel
             {
                 MessageBox.Show(e.ToString());
             }
+        }
+
+        /// <summary>
+        /// Update Source Tree By Group Name
+        /// </summary>
+        /// <param name="Items"></param>
+        public void UpdateDataSource(List<ObjectDetails> Items)
+        {
+            ICollectionView view = CollectionViewSource.GetDefaultView(Items);
+            view.GroupDescriptions.Clear();
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription("GroupName");
+            view.GroupDescriptions.Add(groupDescription);
+            view.Refresh();
         }
 
         /// <summary>
@@ -130,14 +153,7 @@ namespace SnoopAutoCADCSharp.ViewModel
                 return obj.GetType().Name;
         }
 
-        //public void AddTreeViewItem(TreeViewCustomItem parent, object link_object)
-        //{
-        //    string text = GetNameOrType(link_object);
-        //    TreeViewCustomItem child_item = new TreeViewCustomItem() { Title = text, Object = link_object };
-        //    parent.ChildItems.Add(child_item);
-        //}
-
-        public void ListObjectInformation(object obj)
+        public void ListObjectInformation(DBObject obj)
         {
             try
             {
@@ -145,6 +161,7 @@ namespace SnoopAutoCADCSharp.ViewModel
                 Type objType = obj.GetType();
                 ListProperties(obj, objType);
                 ListMethods(obj, objType);
+                dataMethod.Add(obj.Id.ToString(), new List<ObjectDetails>(listviewitems));
                 ICollectionView view = CollectionViewSource.GetDefaultView(listviewitems);
                 view.Refresh();
             }
@@ -328,9 +345,9 @@ namespace SnoopAutoCADCSharp.ViewModel
             objectIds.Add((ObjectId)LinkObject);
             try
             {
-                SnoopViewModel viewModel = new SnoopViewModel(Ed, Database, objectIds);
+                SnoopViewModel viewModel = new SnoopViewModel(doc, Database, objectIds);
                 MainWindow form = new MainWindow(viewModel);
-                Application.ShowModalWindow(FrmMain.Owner,form);
+                Application.ShowModalWindow(FrmMain.Owner, form);
             }
             catch (Exception ex)
             {
@@ -359,7 +376,7 @@ namespace SnoopAutoCADCSharp.ViewModel
             {
                 try
                 {
-                    SnoopViewModel vm = new SnoopViewModel(Ed, Database, objectIds);
+                    SnoopViewModel vm = new SnoopViewModel(doc, Database, objectIds);
                     MainWindow form = new MainWindow(vm);
                     Application.ShowModalWindow(form);
                 }

@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Runtime;
 using SnoopAutoCADCSharp.Model;
 using SnoopAutoCADCSharp.ViewModel;
 using Exception = System.Exception;
@@ -31,22 +34,28 @@ namespace SnoopAutoCADCSharp.View
         {
             try
             {
+
                 TreeViewCustomItem selected = e.NewValue as TreeViewCustomItem;
                 object obj = selected.Object;
-                if (obj != null)
+                DBObject dbObject = obj as DBObject;
+                if (dbObject != null)
                 {
-                    _viewModel.LisViewItems.Clear();
-                     Type objType = obj.GetType();
-                    _viewModel.ListProperties(obj, objType);
-                    _viewModel.ListMethods(obj, objType);
-                    ICollectionView view = CollectionViewSource.GetDefaultView(_viewModel.LisViewItems);
-                    view.Refresh();
+                    foreach (KeyValuePair<string, List<ObjectDetails>> pair in _viewModel.DataMethod)
+                    {
+                        if (pair.Key == dbObject.Id.ToString())
+                        {
+                            _viewModel.LisViewItems = new List<ObjectDetails>();
+                            _viewModel.LisViewItems = pair.Value;
+                        }
+                    }
 
+                    _viewModel.UpdateDataSource(_viewModel.LisViewItems);
                 }
+
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                MessageBox.Show(exception.ToString());
+                MessageBox.Show(ex.InnerException.StackTrace);
             }
         }
 
@@ -58,13 +67,27 @@ namespace SnoopAutoCADCSharp.View
             }
             ObjectDetails selectedItem = this.listview.SelectedItem as ObjectDetails;
             object LinkObject = selectedItem.LinkObject;
+            if (LinkObject is null)
+            {
+                return;
+            }
             if (_viewModel.IsEnumerable(LinkObject))
             {
-                _viewModel.CollectionItemSelected(LinkObject);
+                using (_viewModel.doc.LockDocument())
+                {
+                    _viewModel.CollectionItemSelected(LinkObject);
+                }
+
             }
-            else if (LinkObject is ObjectId)
+            else if (LinkObject is ObjectId objectId)
             {
-                _viewModel.ObjectIdItemSelected(LinkObject);
+                if (!IsExcept(objectId))
+                {
+                    using (_viewModel.doc.LockDocument())
+                    {
+                        _viewModel.ObjectIdItemSelected(objectId);
+                    }
+                }
             }
         }
 
@@ -95,6 +118,16 @@ namespace SnoopAutoCADCSharp.View
                 Close();
             }
         }
+
+
+        bool IsExcept(ObjectId objectId)
+        {
+            if (objectId.IsNull) return true;
+            if (objectId.ToString() == "0") return true;
+            if (objectId.ToString() == "(0)") return true;
+            return false;
+        }
+
     }
 }
 

@@ -123,7 +123,7 @@ copy $(ProjectDir)PackageContents.xml C:\ProgramData\Autodesk\ApplicationPlugins
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Deploy="0" Reactor_Output="" Reactor_Configuration="Debug" Reactor_Project="C:\Users\chuon\3D Objects\ProtectSetting.nrproj" Reactor_Commands="" Reactor_Enabled="1" />
+      <UserProperties Reactor_Enabled="0" Reactor_Commands="" Reactor_Project="C:\Users\chuon\3D Objects\ProtectSetting.nrproj" Reactor_Configuration="Debug" Reactor_Output="" Reactor_Deploy="0" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

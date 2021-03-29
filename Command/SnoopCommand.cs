@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
@@ -20,14 +21,24 @@ namespace SnoopAutoCADCSharp.Command
         {
             try
             {
-                Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;
-                //select multiple entities
-                Database db = Application.DocumentManager.MdiActiveDocument.Database;
-                List<ObjectId> objectIds = PickObjectBySelect(ed);
-                SnoopViewModel vm = new SnoopViewModel(ed, db,objectIds);
-                MainWindow form = new MainWindow(vm);
-                IntPtr handle = WindowHandle.FindCadWindowHandle();
-                Application.ShowModalWindow(handle, form);
+                Document doc = Application.DocumentManager.MdiActiveDocument;
+                Editor ed = doc.Editor;
+                Database db = doc.Database;
+                using (Transaction tran = db.TransactionManager.StartTransaction())
+                {
+                    List<ObjectId> objectIds = PickObjectBySelect(doc);
+                    if (objectIds!=null)
+                    {
+                        SnoopViewModel vm = new SnoopViewModel(doc, db, objectIds);
+                        MainWindow form = new MainWindow(vm);
+                        form.SetCadAsWindowOwner();
+                        form.Show();
+                    }
+                    tran.Commit();
+
+                }
+
+
             }
             catch (Exception ex)
             {
@@ -35,17 +46,19 @@ namespace SnoopAutoCADCSharp.Command
             }
         }
 
-        List<ObjectId> PickObjectBySelect(Editor ed)
+        List<ObjectId> PickObjectBySelect(Document doc)
         {
             try
             {
-
-                PromptSelectionResult promptSelectionResult = ed.GetSelection();
+                //PromptSelectionOptions poOptions = new PromptSelectionOptions();
+                //poOptions.SingleOnly = true;
+                PromptSelectionResult promptSelectionResult = doc.Editor.GetSelection();
                 if (promptSelectionResult.Status != PromptStatus.OK) return null;
                 SelectionSet selectionSet = promptSelectionResult.Value;
                 return selectionSet.GetObjectIds().ToList();
-
             }
+            catch(ArgumentNullException){}
+            catch(NullReferenceException){}
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
