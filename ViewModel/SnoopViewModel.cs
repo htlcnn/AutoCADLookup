@@ -237,7 +237,7 @@ namespace SnoopAutoCADCSharp.ViewModel
             }
             catch (Exception)
             {
-              
+                // ignored
             }
         }
 

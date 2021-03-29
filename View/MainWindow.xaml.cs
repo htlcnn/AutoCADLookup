@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using Autodesk.AutoCAD.DatabaseServices;
 using SnoopAutoCADCSharp.Model;
@@ -29,23 +31,16 @@ namespace SnoopAutoCADCSharp.View
         {
             try
             {
-                TreeView tree = sender as TreeView;
                 TreeViewCustomItem selected = e.NewValue as TreeViewCustomItem;
-
                 object obj = selected.Object;
                 if (obj != null)
                 {
                     _viewModel.LisViewItems.Clear();
-                    Type objType = obj.GetType();
+                     Type objType = obj.GetType();
                     _viewModel.ListProperties(obj, objType);
                     _viewModel.ListMethods(obj, objType);
-                    //TODO
-                    //if (_viewModel.LisViewItems==null)
-                    //{
-                    //    MessageBox.Show("dsds");
-                    //}
-                    //ICollectionView view = CollectionViewSource.GetDefaultView(_viewModel.LisViewItems);
-                    //view.Refresh();
+                    ICollectionView view = CollectionViewSource.GetDefaultView(_viewModel.LisViewItems);
+                    view.Refresh();
 
                 }
             }

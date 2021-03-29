@@ -42,7 +42,7 @@
             ItemsSource="{Binding TreeViewItems}"
             SelectedItemChanged="Treeview_SelectedItemChanged">
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type viewModel:TreeViewCustomItem}" ItemsSource="{Binding ChildItems}">
+                <HierarchicalDataTemplate DataType="{x:Type viewModel:TreeViewCustomItem}" ItemsSource="{Binding ChildItems,UpdateSourceTrigger=PropertyChanged}">
                     <TextBlock Text="{Binding Title}" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
