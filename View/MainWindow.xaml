@@ -5,8 +5,8 @@
     xmlns:self="clr-namespace:SnoopAutoCADCSharp"
     xmlns:viewModel="clr-namespace:SnoopAutoCADCSharp.ViewModel"
     Title="Snoop AutoCAD Database"
-    Height="500"
     Width="800"
+    Height="500"
     MinWidth="800"
     MinHeight="500"
     PreviewKeyDown="Window_PreviewKeyDown"
@@ -44,11 +44,12 @@
             ItemsSource="{Binding TreeViewItems}"
             SelectedItemChanged="Treeview_SelectedItemChanged">
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type viewModel:TreeViewCustomItem}" ItemsSource="{Binding ChildItems,UpdateSourceTrigger=PropertyChanged}">
+                <HierarchicalDataTemplate DataType="{x:Type viewModel:TreeViewCustomItem}" ItemsSource="{Binding ChildItems, UpdateSourceTrigger=PropertyChanged}">
                     <TextBlock Text="{Binding Title}" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
+
         <ListView
             x:Name="listview"
             Grid.Row="0"
@@ -64,7 +65,7 @@
             </ListView.Resources>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <EventSetter Event="MouseDoubleClick"  Handler="ListViewItem_DoubleClick" />
+                    <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_DoubleClick" />
                     <Setter Property="ContextMenu" Value="{StaticResource ItemContextMenu}" />
                 </Style>
             </ListView.ItemContainerStyle>
