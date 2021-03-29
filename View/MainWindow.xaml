@@ -5,13 +5,12 @@
     xmlns:self="clr-namespace:SnoopAutoCADCSharp"
     xmlns:viewModel="clr-namespace:SnoopAutoCADCSharp.ViewModel"
     Title="Snoop AutoCAD Database"
-    Width="800"
-    Height="500"
+    Width="700"
+    Height="600"
     MinWidth="800"
     MinHeight="500"
     PreviewKeyDown="Window_PreviewKeyDown"
     ResizeMode="CanResize"
-    SizeToContent="Width"
     Topmost="True"
     WindowStartupLocation="CenterScreen">
     <Window.Resources>

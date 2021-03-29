@@ -67,21 +67,27 @@ namespace SnoopAutoCADCSharp.View
             }
             ObjectDetails selectedItem = this.listview.SelectedItem as ObjectDetails;
             object LinkObject = selectedItem.LinkObject;
+            if (LinkObject is null)
+            {
+                return;
+            }
             if (_viewModel.IsEnumerable(LinkObject))
             {
                 using (_viewModel.doc.LockDocument())
                 {
                     _viewModel.CollectionItemSelected(LinkObject);
                 }
-               
+
             }
-            else if (LinkObject is ObjectId)
+            else if (LinkObject is ObjectId objectId)
             {
-                using (_viewModel.doc.LockDocument())
+                if (!IsExcept(objectId))
                 {
-                    _viewModel.ObjectIdItemSelected(LinkObject);
+                    using (_viewModel.doc.LockDocument())
+                    {
+                        _viewModel.ObjectIdItemSelected(objectId);
+                    }
                 }
-                
             }
         }
 
@@ -112,6 +118,16 @@ namespace SnoopAutoCADCSharp.View
                 Close();
             }
         }
+
+
+        bool IsExcept(ObjectId objectId)
+        {
+            if (objectId.IsNull) return true;
+            if (objectId.ToString() == "0") return true;
+            if (objectId.ToString() == "(0)") return true;
+            return false;
+        }
+
     }
 }
 

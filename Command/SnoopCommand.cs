@@ -27,11 +27,15 @@ namespace SnoopAutoCADCSharp.Command
                 using (Transaction tran = db.TransactionManager.StartTransaction())
                 {
                     List<ObjectId> objectIds = PickObjectBySelect(doc);
-                    SnoopViewModel vm = new SnoopViewModel(doc, db, objectIds);
-                    MainWindow form = new MainWindow(vm);
-                    form.SetCadAsWindowOwner();
-                    form.Show();
+                    if (objectIds!=null)
+                    {
+                        SnoopViewModel vm = new SnoopViewModel(doc, db, objectIds);
+                        MainWindow form = new MainWindow(vm);
+                        form.SetCadAsWindowOwner();
+                        form.Show();
+                    }
                     tran.Commit();
+
                 }
 
 
@@ -53,6 +57,8 @@ namespace SnoopAutoCADCSharp.Command
                 SelectionSet selectionSet = promptSelectionResult.Value;
                 return selectionSet.GetObjectIds().ToList();
             }
+            catch(ArgumentNullException){}
+            catch(NullReferenceException){}
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
