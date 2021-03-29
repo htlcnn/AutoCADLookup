@@ -10,7 +10,7 @@ Interactive Autocad BIM database exploration tool to view and navigate element p
 
 ### Version
 
-The most up-to-date version provided here is for Autocad 2022.
+The most up-to-date version provided <a href="[link](https://github.com/chuongmep/SnoopAutoCADCSharp/releases/)">here</a>  is for Autocad 2022.
 - [2022](link) for Autocad 2022
 - [2021](link) for Autocad 2021
 - [2020](link) for Autocad 2020
