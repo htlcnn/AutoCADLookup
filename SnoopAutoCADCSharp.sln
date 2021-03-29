@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29209.152
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1321
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnoopAutoCADCSharp", "SnoopAutoCADCSharp.csproj", "{275C1B41-9089-4817-B48F-564A72A6D121}"
 EndProject
@@ -11,8 +11,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{275C1B41-9089-4817-B48F-564A72A6D121}.Debug|Any CPU.ActiveCfg = Release|Any CPU
-		{275C1B41-9089-4817-B48F-564A72A6D121}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{275C1B41-9089-4817-B48F-564A72A6D121}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{275C1B41-9089-4817-B48F-564A72A6D121}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{275C1B41-9089-4817-B48F-564A72A6D121}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{275C1B41-9089-4817-B48F-564A72A6D121}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
@@ -20,6 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6D89A3E3-8662-453C-B582-C1EF90529F1C}
+		SolutionGuid = {7C89A58D-A042-49B9-8849-1DEF4397E06F}
 	EndGlobalSection
 EndGlobal

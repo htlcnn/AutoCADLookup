@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>SnoopAutoCADCSharp</RootNamespace>
     <AssemblyName>SnoopAutoCADCSharp</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -43,20 +43,17 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AcCoreMgd, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Setup\UCE\Autodesk\AutoCAD\API\ObjectARX 2013\inc\AcCoreMgd.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="AcCoreMgd">
+      <HintPath>..\autocad-sdk\lib\2018\Any\AcCoreMgd.dll</HintPath>
     </Reference>
-    <Reference Include="AcDbMgd, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Setup\UCE\Autodesk\AutoCAD\API\ObjectARX 2013\inc\AcDbMgd.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="AcDbMgd">
+      <HintPath>..\autocad-sdk\lib\2018\Any\AcDbMgd.dll</HintPath>
     </Reference>
-    <Reference Include="AcMgd, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Setup\UCE\Autodesk\AutoCAD\API\ObjectARX 2013\inc\AcMgd.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="AcMgd">
+      <HintPath>..\autocad-sdk\lib\2018\Any\AcMgd.dll</HintPath>
+    </Reference>
+    <Reference Include="AcTcMgd">
+      <HintPath>..\autocad-sdk\lib\2018\Any\AcTcMgd.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -74,9 +71,16 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Model\ViewModelBase.cs" />
+    <Compile Include="Model\WindowHandle.cs" />
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\ObjectDetails.cs" />
+    <Compile Include="Model\RelayCommand.cs" />
+    <Compile Include="Command\SnoopCommand.cs" />
+    <Compile Include="ViewModel\SnoopViewModel.cs" />
+    <Compile Include="ViewModel\TreeViewCustom.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -105,15 +109,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MainWindow.xaml">
+    <Page Include="View\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist C:\ProgramData\Autodesk\ApplicationPlugins\SnoopAutoCADCSharp.bundle\ mkdir C:\ProgramData\Autodesk\ApplicationPlugins\SnoopAutoCADCSharp.bundle\
 copy $(TargetPath) C:\ProgramData\Autodesk\ApplicationPlugins\SnoopAutoCADCSharp.bundle\SnoopAutoCADCSharp.dll
 copy $(ProjectDir)PackageContents.xml C:\ProgramData\Autodesk\ApplicationPlugins\SnoopAutoCADCSharp.bundle\PackageContents.xml</PostBuildEvent>
   </PropertyGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties Reactor_Deploy="0" Reactor_Output="" Reactor_Configuration="Debug" Reactor_Project="C:\Users\chuon\3D Objects\ProtectSetting.nrproj" Reactor_Commands="" Reactor_Enabled="1" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
