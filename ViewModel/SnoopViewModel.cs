@@ -58,6 +58,12 @@ namespace SnoopAutoCADCSharp.ViewModel
             set => OnPropertyChanged(ref treeViewItems, value);
         }
 
+        /// <summary>
+        /// Base Model
+        /// </summary>
+        /// <param name="ed"></param>
+        /// <param name="db"></param>
+        /// <param name="objectIds"></param>
         public SnoopViewModel(Editor ed, Database db,List<ObjectId> objectIds)
         {
             this.Ed = ed;
@@ -67,7 +73,9 @@ namespace SnoopAutoCADCSharp.ViewModel
         }
 
         
-
+        /// <summary>
+        /// Get list item of object
+        /// </summary>
         void GetListViewItem()
         {
             try
@@ -95,6 +103,10 @@ namespace SnoopAutoCADCSharp.ViewModel
             }
         }
 
+        /// <summary>
+        /// Add Data object to tree view
+        /// </summary>
+        /// <param name="obj"></param>
         public void AddToTreeView(DBObject obj)
         {
             try
@@ -142,6 +154,11 @@ namespace SnoopAutoCADCSharp.ViewModel
             }
         }
 
+        /// <summary>
+        /// Get all properties objects
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="objType"></param>
         public void ListProperties(object obj, Type objType)
         {
             PropertyInfo[] properties = objType.GetProperties();
@@ -166,6 +183,12 @@ namespace SnoopAutoCADCSharp.ViewModel
             }
         }
 
+        /// <summary>
+        /// Get Value of method object
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         private object GetValue(MethodInfo method, object obj)
         {
             object methodValue = null;
@@ -200,11 +223,23 @@ namespace SnoopAutoCADCSharp.ViewModel
 
         private StringCollection _bannedList = new StringCollection();
 
+        /// <summary>
+        /// Check Tree View Is Expanded
+        /// </summary>
+        /// <param name="objectType"></param>
+        /// <param name="propName"></param>
+        /// <returns></returns>
         private bool IsBanned(Type objectType, string propName)
         {
             return (_bannedList.Contains($"{objectType.Name}_{propName}"));
         }
 
+
+        /// <summary>
+        /// Get All Method Object Name
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="objType"></param>
         public void ListMethods(object obj, Type objType)
         {
             try
@@ -250,6 +285,12 @@ namespace SnoopAutoCADCSharp.ViewModel
             return (asEnum != null);
         }
 
+        /// <summary>
+        /// Get Value Object
+        /// </summary>
+        /// <param name="prop"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         private string GetValueAsString(PropertyInfo prop, object obj)
         {
             object propValue = null;
@@ -277,6 +318,10 @@ namespace SnoopAutoCADCSharp.ViewModel
             return stringEmpty;
         }
 
+        /// <summary>
+        /// Get Info Selected Object
+        /// </summary>
+        /// <param name="LinkObject"></param>
         public void ObjectIdItemSelected(object LinkObject)
         {
             List<ObjectId> objectIds = new List<ObjectId>();
@@ -294,6 +339,10 @@ namespace SnoopAutoCADCSharp.ViewModel
 
         }
 
+        /// <summary>
+        /// Get Info Item Select Object
+        /// </summary>
+        /// <param name="LinkObject"></param>
         public void CollectionItemSelected(object LinkObject)
         {
             List<ObjectId> objectIds = new List<ObjectId>();

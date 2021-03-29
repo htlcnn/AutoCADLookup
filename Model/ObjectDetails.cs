@@ -2,6 +2,9 @@
 
 namespace SnoopAutoCADCSharp.Model
 {
+    /// <summary>
+    /// Information Of Object 
+    /// </summary>
     public class ObjectDetails
     {
         public string GroupName { get; set; }
