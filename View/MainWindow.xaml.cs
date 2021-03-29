@@ -69,11 +69,19 @@ namespace SnoopAutoCADCSharp.View
             object LinkObject = selectedItem.LinkObject;
             if (_viewModel.IsEnumerable(LinkObject))
             {
-                _viewModel.CollectionItemSelected(LinkObject);
+                using (_viewModel.doc.LockDocument())
+                {
+                    _viewModel.CollectionItemSelected(LinkObject);
+                }
+               
             }
             else if (LinkObject is ObjectId)
             {
-                _viewModel.ObjectIdItemSelected(LinkObject);
+                using (_viewModel.doc.LockDocument())
+                {
+                    _viewModel.ObjectIdItemSelected(LinkObject);
+                }
+                
             }
         }
 
