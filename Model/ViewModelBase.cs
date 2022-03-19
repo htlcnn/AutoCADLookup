@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace SnoopAutoCADCSharp.Model
+namespace CADSnoop.Model
 {
     public class ViewModelBase : INotifyPropertyChanged
     {

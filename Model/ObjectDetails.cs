@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SnoopAutoCADCSharp.Model
+namespace CADSnoop.Model
 {
     /// <summary>
     /// Information Of Object 

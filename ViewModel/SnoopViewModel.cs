@@ -7,16 +7,15 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Input;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
-using SnoopAutoCADCSharp.Model;
-using SnoopAutoCADCSharp.View;
+using CADSnoop.Model;
+using CADSnoop.View;
 using Application = Autodesk.AutoCAD.ApplicationServices.Core.Application;
 using Exception = System.Exception;
 
-namespace SnoopAutoCADCSharp.ViewModel
+namespace CADSnoop.ViewModel
 {
     public class SnoopViewModel : ViewModelBase
 
@@ -378,6 +377,7 @@ namespace SnoopAutoCADCSharp.ViewModel
                 {
                     SnoopViewModel vm = new SnoopViewModel(doc, Database, objectIds);
                     MainWindow form = new MainWindow(vm);
+                    form.WindowStartupLocation = WindowStartupLocation.Manual;
                     Application.ShowModalWindow(form);
                 }
                 catch (Exception ex)

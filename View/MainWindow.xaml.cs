@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
-using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Runtime;
-using SnoopAutoCADCSharp.Model;
-using SnoopAutoCADCSharp.ViewModel;
+using CADSnoop.Model;
+using CADSnoop.ViewModel;
 using Exception = System.Exception;
 
-namespace SnoopAutoCADCSharp.View
+namespace CADSnoop.View
 {
 
     /// <summary>
@@ -21,13 +16,16 @@ namespace SnoopAutoCADCSharp.View
     public partial class MainWindow : Window
     {
         private SnoopViewModel _viewModel;
-        public MainWindow(SnoopViewModel vm)
+
+        public MainWindow()
         {
             InitializeComponent();
+        }
+        public MainWindow(SnoopViewModel vm) :this()
+        {
             this._viewModel = vm;
             this.DataContext = vm;
             SnoopViewModel.FrmMain = this;
-
         }
 
         private void Treeview_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
