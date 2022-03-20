@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace SnoopAutoCADCSharp.Model
+namespace CADSnoop.Model
 {
     public class RelayCommand : ICommand
     {
@@ -24,8 +24,8 @@ namespace SnoopAutoCADCSharp.Model
 
         public event EventHandler CanExecuteChanged
         {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
         }
 
         public bool CanExecute(object parameter)

@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace SnoopAutoCADCSharp.Model
+namespace CADSnoop.Model
 {
     public static class WindowHandle
     {
@@ -52,7 +52,6 @@ namespace SnoopAutoCADCSharp.Model
 					if (null != foundRevitProcess) { break; }
 				}  // For each revit process found
 
-				// Get the window handle of the Revit process found.
 				if (null != foundRevitProcess)
 				{
 					foundRevitHandle = foundRevitProcess.MainWindowHandle;

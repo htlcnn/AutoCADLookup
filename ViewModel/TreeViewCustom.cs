@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace SnoopAutoCADCSharp.ViewModel
+namespace CADSnoop.ViewModel
 {
     public class TreeViewCustomItem
     {
