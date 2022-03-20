@@ -126,6 +126,10 @@ namespace CADSnoop.View
             return false;
         }
 
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }
 

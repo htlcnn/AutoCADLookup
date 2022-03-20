@@ -29,14 +29,14 @@
         </Style>
 
     </Window.Resources>
-    <Grid Margin="10">
+    <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
         <TreeView
@@ -119,5 +119,6 @@
                 </GroupStyle>
             </ListView.GroupStyle>
         </ListView>
+        <Button Click="ButtonBase_OnClick" Margin="2,2,2,2" Grid.Column="1" Grid.Row="1" Content="OK"></Button>
     </Grid>
 </Window>
