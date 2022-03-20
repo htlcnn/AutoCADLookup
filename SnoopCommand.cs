@@ -24,18 +24,20 @@ namespace CADSnoop
                 Document doc = Application.DocumentManager.MdiActiveDocument;
                 Editor ed = doc.Editor;
                 Database db = doc.Database;
-                using (Transaction tran = db.TransactionManager.StartTransaction())
+                using (DocumentLock lockDoc = doc.LockDocument())
                 {
-                    List<ObjectId> objectIds = PickObjectBySelect(doc);
-                    if (objectIds != null)
+                    using (Transaction tran = db.TransactionManager.StartTransaction())
                     {
-                        SnoopViewModel vm = new SnoopViewModel(doc, db, objectIds);
-                        MainWindow form = new MainWindow(vm);
-                        form.SetCadAsWindowOwner();
-                        form.Show();
+                        List<ObjectId> objectIds = PickObjectBySelect(doc);
+                        if (objectIds != null)
+                        {
+                            SnoopViewModel vm = new SnoopViewModel(doc, db, objectIds);
+                            MainWindow form = new MainWindow(vm);
+                            form.SetCadAsWindowOwner();
+                            form.Show();
+                        }
+                        tran.Commit();
                     }
-                    tran.Commit();
-
                 }
             }
             catch (Exception ex)
