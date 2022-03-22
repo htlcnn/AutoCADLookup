@@ -17,7 +17,48 @@ namespace CADSnoop
     public class SnoopCommand
     {
         [CommandMethod("Snoop")]
-        public void Execute()
+        public void Snoop()
+        {
+            Snoop(new List<ObjectId>());
+        }
+        /// <summary>
+        /// Snoop Snoop a object by id
+        /// </summary>
+        /// <param name="objectId"></param>
+        public void Snoop(ObjectId objectId)
+        {
+            Snoop(new List<ObjectId>(){objectId});
+        }
+        /// <summary>
+        /// snoop by dbobject
+        /// </summary>
+        /// <param name="dbObject"></param>
+        /// <exception cref="ArgumentException"></exception>
+        public void Snoop(DBObject dbObject)
+        {
+            if (dbObject == null) throw new ArgumentException(nameof(dbObject));
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Editor ed = doc.Editor;
+            Database db = doc.Database;
+            using (DocumentLock lockDoc = doc.LockDocument())
+            {
+                using (Transaction tran = db.TransactionManager.StartTransaction())
+                {
+                    {
+                        SnoopViewModel vm = new SnoopViewModel(doc, db, dbObject);
+                        MainWindow form = new MainWindow(vm);
+                        form.SetCadAsWindowOwner();
+                        form.Show();
+                    }
+                    tran.Commit();
+                }
+            }
+        }
+        /// <summary>
+        /// Snoop snoop object by list object id
+        /// </summary>
+        /// <param name="objectIds"></param>
+        public void Snoop(List<ObjectId> objectIds)
         {
             try
             {
@@ -28,7 +69,7 @@ namespace CADSnoop
                 {
                     using (Transaction tran = db.TransactionManager.StartTransaction())
                     {
-                        List<ObjectId> objectIds = PickObjectBySelect(doc);
+                        if (objectIds == null || objectIds.Count==0) objectIds = PickObjectBySelect(doc);
                         if (objectIds != null)
                         {
                             SnoopViewModel vm = new SnoopViewModel(doc, db, objectIds);
@@ -45,7 +86,6 @@ namespace CADSnoop
                 MessageBox.Show(ex.ToString());
             }
         }
-
         List<ObjectId> PickObjectBySelect(Document doc)
         {
             try

@@ -68,21 +68,30 @@ namespace CADSnoop.ViewModel
             set => OnPropertyChanged(ref treeViewItems, value);
         }
 
+        public SnoopViewModel(Document doc, Database db)
+        {
+            this.doc = doc;
+            this.Ed = doc.Editor;
+            this.Database = db;
+            this.dataMethod = new Dictionary<string, List<ObjectDetails>>();
+           
+        }
         /// <summary>
         /// Base Model
         /// </summary>
         /// <param name="db"></param>
         /// <param name="objectIds"></param>
-        public SnoopViewModel(Document doc, Database db, List<ObjectId> objectIds)
+        public SnoopViewModel(Document doc, Database db, List<ObjectId> objectIds) : this(doc,db)
         {
-            this.doc = doc;
-            this.Ed = doc.Editor;
-            this.Database = db;
             this.ObjectIds = objectIds;
-            this.dataMethod = new Dictionary<string, List<ObjectDetails>>();
             GetListViewItem();
         }
 
+        public SnoopViewModel(Document doc, Database db, DBObject dbObject)  :this(doc,db)
+        {
+            this.ObjectIds = new List<ObjectId>(){ dbObject.Id};
+            GetListViewItem();
+        }
         /// <summary>
         /// Get list item of object
         /// </summary>
